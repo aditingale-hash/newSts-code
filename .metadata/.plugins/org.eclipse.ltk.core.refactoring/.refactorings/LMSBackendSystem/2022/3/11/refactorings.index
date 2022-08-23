@@ -1,0 +1,11 @@
+1646800554158	Rename compilation unit 'ModuleDto.java'
+1646802209798	Delete element
+1646803839000	Delete element
+1646886199232	Rename type 'Forum'
+1646889769387	Rename type 'ForumController'
+1646889801579	Rename type 'ForumRepository'
+1646908482619	Encapsulate field 'questions'
+1646916066727	Delete element
+1646918105177	Delete element
+1646929229734	Delete element
+1646984248012	Rename package 'com.lms.api.module'

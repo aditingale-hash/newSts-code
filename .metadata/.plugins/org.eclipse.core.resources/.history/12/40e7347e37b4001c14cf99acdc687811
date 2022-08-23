@@ -1,0 +1,17 @@
+package com.health.repository;
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.health.model.Patient;
+import com.health.model.Precription;
+
+public interface PatientRepository extends JpaRepository<Patient, Long>{
+
+	@Query("select * from Patient p where p.id =?1")
+  Precription findByPatientId(Long pid);
+
+	
+
+}

@@ -1,0 +1,9 @@
+package com.health.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.health.model.Precription;
+
+public interface PrecriptionRepository extends JpaRepository<Precription, Long>{
+
+}

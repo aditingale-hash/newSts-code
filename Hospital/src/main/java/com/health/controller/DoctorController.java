@@ -1,0 +1,45 @@
+package com.health.controller;
+
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.health.model.Doctor;
+
+import com.health.model.Speclization;
+import com.health.repository.DoctorRepository;
+import com.health.repository.SpeclizationRepository;
+
+
+@RestController
+public class DoctorController {
+
+	
+	@Autowired
+	private DoctorRepository doctorRepository;
+	
+
+	@Autowired
+	private SpeclizationRepository speclizationRepository;
+	
+	@PostMapping("/doctors")
+	public Doctor PostAppointemnt(@RequestBody Doctor doctor){
+		return doctorRepository.save(doctor);
+	}
+	//post doctors by speclization id
+	
+	@PostMapping("/doctor/{sid}")
+	public Doctor postDoctorBySpeclizationID(@PathVariable("sid") Long sid,
+			@RequestBody Doctor doctor) {
+		
+	         Speclization speclization=speclizationRepository.getById(sid);
+		doctor.setSpeclization(speclization);
+				return doctorRepository.save(doctor);
+			
+	}
+	
+}

@@ -1,0 +1,63 @@
+package com.health.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.health.model.Patient;
+import com.health.model.Precription;
+import com.health.model.User;
+import com.health.repository.PatientRepository;
+import com.health.repository.PrecriptionRepository;
+import com.health.repository.UserRepository;
+
+@RestController
+@CrossOrigin(origins = {"http://localhost:4200/"})
+public class PrecriptionController {
+
+	@Autowired
+	private PrecriptionRepository precriptionRepository;
+	
+	@Autowired
+	private PatientRepository patientRepository;
+	@Autowired
+	private UserRepository userRepository;
+	
+	@PostMapping("/precription")
+	public Precription PostPrecription(@RequestBody Precription precription){
+		return precriptionRepository.save(precription);
+	}
+	
+	@PostMapping("/precription/{name}")
+	public Precription postPrecriptionBypatientID(@PathVariable("name") String name,
+			@RequestBody Precription precription) {
+		
+		User user=userRepository.findByUsername(name);
+		precription.setUser(user);
+				return precriptionRepository.save(precription);
+			
+	}
+	
+	@GetMapping("/precription")
+	public List<Precription> getAllPrecription() {
+		
+		return precriptionRepository.findAll();
+	}
+	//get precription by patient id
+	@GetMapping("/precription/{pid}")
+	public Precription getPrecriptionByPatientId(@PathVariable("pid") Long pid){
+		
+	Precription	precription=precriptionRepository.findByPatientId(pid);
+	       
+			return precription;
+		
+	}
+	
+	
+}

@@ -1,0 +1,59 @@
+package com.health.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.health.model.Doctor;
+import com.health.model.Speclization;
+import com.health.repository.DoctorRepository;
+import com.health.repository.SpeclizationRepository;
+import com.springboot.model.Course;
+
+
+
+@RestController
+public class DoctorController {
+
+	
+	@Autowired
+	private DoctorRepository doctorRepository;
+	
+
+	@Autowired
+	private SpeclizationRepository speclizationRepository;
+	
+	@PostMapping("/doctors")
+	public Doctor PostAppointemnt(@RequestBody Doctor doctor){
+		return doctorRepository.save(doctor);
+	}
+	
+	@GetMapping("/course")
+	public String getAllcourses() {
+		
+		return "aditi";
+		
+	}
+	@PostMapping("/doctor/speclization/{did}/{sid}")
+	public Doctor assignDoctorToSpeclization(@PathVariable("did") Long did , @PathVariable("sid")Long sid) {
+		Doctor doctor=doctorRepository.getById(did);
+		List<Speclization>speclizationlist=doctor.getSpeclization();
+		
+		Speclization speclization=speclizationRepository.getById(sid);
+		speclizationlist.add(speclization);
+		
+		doctor.setSpeclization(speclizationlist);
+		
+		
+		return doctorRepository.save(doctor);
+		
+		
+		
+	}
+	
+}

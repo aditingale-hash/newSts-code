@@ -1,0 +1,73 @@
+package com.health.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.health.model.AppointmentForm;
+import com.health.model.Doctor;
+import com.health.model.Precription;
+import com.health.model.Speclization;
+import com.health.repository.AppointmentRepository;
+import com.health.repository.DoctorRepository;
+import com.health.repository.SpeclizationRepository;
+
+@RestController
+@CrossOrigin(origins = {"http://localhost:4200/"})
+public class AppointmentController {
+	
+	
+	@Autowired
+	private AppointmentRepository appointmentRepository;
+	
+	@Autowired
+	private SpeclizationRepository speclizationRepository;
+	
+	@Autowired
+	private DoctorRepository  doctorRepository;
+	
+	@PostMapping("/appointment")
+	public AppointmentForm PostAppointemnt(@RequestBody AppointmentForm form){
+		return appointmentRepository.save(form);
+	}
+	
+	@GetMapping("/getappointment")
+	public List<AppointmentForm> getAppointment() {
+		
+		return appointmentRepository.findAll();
+	}
+/*	@PostMapping("/appointment/{sid}")
+	public AppointmentForm postDoctorBySpeclizationID(@PathVariable("sid") Long sid,
+			@RequestBody AppointmentForm form) {
+		
+	         Speclization speclization=speclizationRepository.getById(sid);
+		form.setSpeclization(speclization);
+				return appointmentRepository.save(form);
+			
+	}*/
+	//post appointment by doctor id;
+	@PostMapping("/appointment/{did}")
+	public AppointmentForm postAppointmentByDoctorID(@PathVariable("did") Long did,
+			@RequestBody AppointmentForm form) {
+		
+	         Doctor doctor=doctorRepository.getById(did);
+		form.setDoctor(doctor);
+				return appointmentRepository.save(form);
+			
+	}
+	@GetMapping("/appointment/{did}")
+	public List<AppointmentForm> getappointmentbydoctorID(@PathVariable("did")Long did){
+		
+		List<AppointmentForm> appointment=appointmentRepository.findByDoctorId(did);
+		
+		return appointment;
+	}
+	
+	
+}

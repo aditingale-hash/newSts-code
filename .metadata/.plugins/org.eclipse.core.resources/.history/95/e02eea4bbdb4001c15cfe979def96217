@@ -1,0 +1,41 @@
+package com.health.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.health.model.AppointmentForm;
+import com.health.model.Doctor;
+import com.health.model.Speclization;
+import com.health.repository.AppointmentRepository;
+import com.health.repository.SpeclizationRepository;
+
+@RestController
+@CrossOrigin(origins = {"http://localhost:4200/"})
+public class AppointmentController {
+	
+	
+	@Autowired
+	private AppointmentRepository appointmentRepository;
+	
+	@Autowired
+	private SpeclizationRepository speclizationRepository;
+	
+	@PostMapping("/appointment")
+	public AppointmentForm PostAppointemnt(@RequestBody AppointmentForm form){
+		return appointmentRepository.save(form);
+	}
+	@PostMapping("/appointment/{sid}")
+	public Doctor postDoctorBySpeclizationID(@PathVariable("sid") Long sid,
+			@RequestBody AppointmentForm form) {
+		
+	         Speclization speclization=speclizationRepository.getById(sid);
+		form.setSpeclization(speclization);
+				return appointmentRepository.save(form);
+			
+	}
+	
+}

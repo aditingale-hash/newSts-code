@@ -1,0 +1,46 @@
+package com.health.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import com.health.model.Precription;
+import com.health.repository.PatientRepository;
+import com.health.repository.PrecriptionRepository;
+
+@RestController
+public class PrecriptionController {
+
+	@Autowired
+	private PrecriptionRepository precriptionRepository;
+	@Autowired
+	private PatientRepository patientRepository;
+	
+	
+	@PostMapping("/precription")
+	public Precription PostPrecription(@RequestBody Precription precription){
+		return precriptionRepository.save(precription);
+	}
+	
+	@GetMapping("/precription")
+	public List<Precription> getAllPrecription() {
+		
+		return precriptionRepository.findAll();
+	}
+	//get precription by patient id
+	@GetMapping("/precription/{pid}")
+	public Precription getPrecriptionByPatientId(@PathVariable("pid") Long pid){
+		
+	Precription	precription=patientRepository.findByPatientId(pid);
+	       
+			return precription;
+		
+	}
+	
+	
+}

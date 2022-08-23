@@ -1,0 +1,20 @@
+package com.health.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.health.model.Patient;
+import com.health.repository.PatientRepository;
+
+@RestController
+public class PatientController {
+
+	@Autowired
+	private PatientRepository patientRepository;
+	@PostMapping("/patient")
+	public Patient PostPrecription(@RequestBody Patient patient){
+		return patientRepository.save(patient);
+	}
+}
